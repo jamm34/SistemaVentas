@@ -3,14 +3,14 @@ import { Title, InputText2, Btn1, Linea, Device, Footer, useAuthStore, v } from 
 
 
 export function LoginTemplate() {
-  const {loginGoogle} = useAuthStore()
-  
+  const { loginGoogle } = useAuthStore()
+
   return (
     <Container>
       <div className="card">
         <ContentLogo>
           <img src={v.logo} />
-          <span>Rosa's Shop</span>
+          <span>Rosa's Shop POS Ventas</span>
         </ContentLogo>
         <Title $paddingbottom="20px">Ingresar</Title>
         <form>
@@ -23,20 +23,22 @@ export function LoginTemplate() {
             />
           </InputText2>
           <Btn1
+            border="2px"
             titulo="INGRESAR"
             bgcolor="#1CB0F6"
             color="255,255,255"
             width="100%"
           />
-        </form> 
+        </form>
         <Linea>
           <span></span>
         </Linea>
         <Btn1
+          border="2px"
           funcion={loginGoogle}
-            titulo="Google"
-            bgcolor="#fff"
-            icono={<v.iconogoogle />}>
+          titulo="Google"
+          bgcolor="#fff"
+          icono={<v.iconogoogle />}>
         </Btn1>
       </div>
       <Footer />
@@ -58,10 +60,15 @@ const Container = styled.div`
     justify-content: center;
     height: 100%;
     width: 100%;
-    margin: 35px;
+    margin: 20px;
     @media ${Device.tablet} {
       width: 400px;
     }
+      form{
+      display:flex;
+      flex-direction: column;
+      gap: 15px;
+      }
   }
 `;
 const ContentLogo = styled.div`

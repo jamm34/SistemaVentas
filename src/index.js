@@ -72,3 +72,4 @@ export * from "./components/organismos/POSDesign/AreaTecladoPos";
 export * from "./components/organismos/POSDesign/TotalPos";
 export * from "./components/organismos/POSDesign/FooterPos";
 export * from "./components/moleculas/SwitchHambur";
+export * from "./hooks/Layout";

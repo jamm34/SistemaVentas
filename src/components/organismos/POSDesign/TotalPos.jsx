@@ -1,24 +1,25 @@
 import styled from "styled-components";
 import { Btn1 } from "../../moleculas/Btn1";
 import { Device } from "../../../styles/Breakpoints";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 
 export function TotalPos() {
-    return (
-        <Container>
-            <section className="imagen">
-                <img src="https://i.ibb.co/HdYgDdp/corazon-2.png" alt="" />
-            </section>
-            <section className="contentTotal">
-                <section className="contentTituloTotal">
-                    <Btn1 titulo="COBRAR" />
-                    <Btn1 titulo="..." />
-                </section>
-                <span>$ 9.99</span>
-            </section>
+  return (
+    <Container>
+      <section className="imagen">
+        <img src="https://i.ibb.co/HdYgDdp/corazon-2.png" alt="" />
+      </section>
+      <section className="contentTotal">
+        <section className="contentTituloTotal">
+          <Btn1 border="2px" color="#207c33" titulo="COBRAR" icono={<Icon icon="fluent-emoji:money-with-wings" />} />
+          <Btn1 border="2px" bgcolor="#ffffff" color="#207c33" titulo="..." icono={<Icon icon="fluent-emoji:safety-vest" />} />
+        </section>
+        <span>$ 9.99</span>
+      </section>
 
-        </Container>
-    );
+    </Container>
+  );
 };
 const Container = styled.div`
   display: flex;

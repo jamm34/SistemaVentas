@@ -20,7 +20,7 @@ export function AreaDetalleVentaPos() {
 const AreaDetalleVenta = styled.section`
     display: flex;
     width: 100%;
-
+margin-top: 10px;
 `;
 
 const ItemVenta = styled.section`

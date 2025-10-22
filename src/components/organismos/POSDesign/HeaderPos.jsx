@@ -1,13 +1,40 @@
 import styled from "styled-components";
-import { Reloj, InputText2, Btn1, Device, ListaDesplegable } from '../../../index';
+import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore } from '../../../index';
 import { v } from "../../../styles/variables";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function HeaderPos() {
     const [stateLectora, setStateLectora] = useState(true)
     const [stateTeclado, setStateTeclado] = useState(false)
     const [stateListaProductos, setStateListaProductos] = useState(false)
+    const { setBuscador, dataProductos, selectProductos } = useProductosStore()
+    const buscadorRef = useRef(null);
+    function focusClick() {
+        buscadorRef.current.focus();
+        buscadorRef.current.value.trim() === "" ? setStateListaProductos(false) :
+            setStateListaProductos(true)
+    }
+
+    function buscar(e) {
+        setBuscador(e.target.value)
+        let texto = e.target.value;
+        if (texto.trim() === "" || stateLectora) {
+            setStateListaProductos(false);
+        }
+        else {
+            setStateListaProductos(true);
+        }
+    }
+    useEffect(() => {
+        if (stateLectora) {
+            setStateListaProductos(false)
+        }
+    }, [stateLectora])
+
+    useEffect(() => {
+        buscadorRef.current.focus();
+    }, [])
     return (
         <Header>
             <section className='contentprincipal'>
@@ -31,8 +58,8 @@ export function HeaderPos() {
             <section className='contentbuscador'>
                 <article className='area1'>
                     <InputText2 >
-                        <input className='form__field' type='text' placeholder='Buscar...' />
-                        <ListaDesplegable state={stateListaProductos} />
+                        <input ref={buscadorRef} onChange={buscar} className='form__field' type='text' placeholder='Buscar...' />
+                        <ListaDesplegable funcion={selectProductos} setState={() => setStateListaProductos(!stateListaProductos)} data={dataProductos} state={stateListaProductos} />
                     </InputText2>
                 </article>
                 <article className='area2'>
@@ -40,6 +67,8 @@ export function HeaderPos() {
                         funcion={() => {
                             setStateLectora(true)
                             setStateTeclado(false)
+                            setStateListaProductos(false)
+                            focusClick()
                         }}
                         bgcolor={stateLectora ? "#5849fe" : ({ theme }) => theme.bgtotal}
                         border="2px"
@@ -50,6 +79,7 @@ export function HeaderPos() {
                         funcion={() => {
                             setStateLectora(false)
                             setStateTeclado(true)
+                            focusClick()
                         }}
                         bgcolor={stateTeclado ? "#5849fe" : ({ theme }) => theme.bgtotal}
                         color={stateTeclado ? "#fff" : ({ theme }) => theme.text}
