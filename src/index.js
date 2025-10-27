@@ -73,3 +73,7 @@ export * from "./components/organismos/POSDesign/TotalPos";
 export * from "./components/organismos/POSDesign/FooterPos";
 export * from "./components/moleculas/SwitchHambur";
 export * from "./hooks/Layout";
+export * from "./supabase/crudVentas";
+export * from "./store/VentasStore";
+export * from "./supabase/crudDetalleVentas";
+export * from "./store/DetalleVentasStore";

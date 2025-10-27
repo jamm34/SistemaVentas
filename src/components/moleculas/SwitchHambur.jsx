@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
 export function SwitchHambur({ isOpen, toggle }) {
-    return (
-        <Container>
-            <label className="burger" for="burger">
-                <input type="checkbox" id="burger" />
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-        </Container>
-    );
+  return (
+    <Container>
+      <label className="burger">
+        <input type="checkbox" id="burger" />
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </Container>
+  );
 };
 const Container = styled.div`
 position: relative;

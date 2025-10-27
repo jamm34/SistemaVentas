@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore } from '../../../index';
+import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useVentasStore, useUsuariosStore, useEmpresaStore, useDetalleVentasStore } from '../../../index';
 import { v } from "../../../styles/variables";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +8,12 @@ export function HeaderPos() {
     const [stateLectora, setStateLectora] = useState(true)
     const [stateTeclado, setStateTeclado] = useState(false)
     const [stateListaProductos, setStateListaProductos] = useState(false)
-    const { setBuscador, dataProductos, selectProductos } = useProductosStore()
+    const { setBuscador, dataProductos, selectProductos, productosItemSelect } = useProductosStore()
+
+    const { insertarVentas, idVenta, eliminarventasIncompletas } = useVentasStore();
+    const { dataUsuarios } = useUsuariosStore();
+    const { dataempresa } = useEmpresaStore();
+    const { insertarDetalleVentas } = useDetalleVentasStore();
     const buscadorRef = useRef(null);
     function focusClick() {
         buscadorRef.current.focus();
@@ -25,6 +30,34 @@ export function HeaderPos() {
         else {
             setStateListaProductos(true);
         }
+    };
+    async function funcion_insertarVenta(itemProductos) {
+        const pVentas = {
+            id_usuario: dataUsuarios?.id,
+            id_empresa: dataempresa?.id
+        };
+
+        const pDetalleVenta = {
+            id_venta: idVenta,
+            precio_venta: productosItemSelect.precio_venta,
+            total: 1 * productosItemSelect.precio_venta,
+            descripcion: productosItemSelect.nombre,
+            id_producto: productosItemSelect.id,
+            precio_compra: productosItemSelect.precio_compra,
+            id_sucursal: 266
+        };
+        if (idVenta == 0) {
+            const result = await insertarVentas(pVentas);
+            pDetalleVenta.id_venta = result?.id;
+            pDetalleVenta.precio_venta = itemProductos.precio_venta;
+            pDetalleVenta.total = 1 * itemProductos.precio_venta;
+            pDetalleVenta.descripcion = itemProductos.nombre;
+            pDetalleVenta.id_producto = itemProductos.id;
+            pDetalleVenta.precio_compra = itemProductos.precio_compra;
+            await insertarDetalleVentas(pDetalleVenta);
+        } else if (idVenta > 0) {
+            await insertarDetalleVentas(pDetalleVenta);
+        }
     }
     useEffect(() => {
         if (stateLectora) {
@@ -34,6 +67,7 @@ export function HeaderPos() {
 
     useEffect(() => {
         buscadorRef.current.focus();
+        eliminarventasIncompletas({ id_usuario: dataUsuarios?.id })
     }, [])
     return (
         <Header>
@@ -59,7 +93,13 @@ export function HeaderPos() {
                 <article className='area1'>
                     <InputText2 >
                         <input ref={buscadorRef} onChange={buscar} className='form__field' type='text' placeholder='Buscar...' />
-                        <ListaDesplegable funcion={selectProductos} setState={() => setStateListaProductos(!stateListaProductos)} data={dataProductos} state={stateListaProductos} />
+                        <ListaDesplegable
+                            funcionCrud={funcion_insertarVenta}
+                            funcion={selectProductos}
+                            setState={() =>
+                                setStateListaProductos(!stateListaProductos)}
+                            data={dataProductos}
+                            state={stateListaProductos} />
                     </InputText2>
                 </article>
                 <article className='area2'>
