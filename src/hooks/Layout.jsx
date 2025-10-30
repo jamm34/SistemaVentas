@@ -1,47 +1,52 @@
 import styled from 'styled-components';
-import { Sidebar, SwitchHambur, useUsuariosStore, Spinner1, useEmpresaStore, } from '../index';
+import { Sidebar, SwitchHambur, useUsuariosStore, Spinner1, useEmpresaStore, MenuMovil } from '../index';
 import { useState } from 'react';
 import { Device } from "../styles/Breakpoints";
 import { useQuery } from "@tanstack/react-query";
 
 
 export function Layout({ children }) {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { dataUsuarios, MostrarUsuarios } = useUsuariosStore();
-    const { mostrarEmpresa } = useEmpresaStore();
-    const { isLoading, error } = useQuery({ queryKey: ["mostrar usuarios"], queryFn: MostrarUsuarios, refetchOnWindowFocus: false });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { dataUsuarios, MostrarUsuarios } = useUsuariosStore();
+  const { mostrarEmpresa } = useEmpresaStore();
+  const { isLoading, error } = useQuery({ queryKey: ["mostrar usuarios"], queryFn: MostrarUsuarios, refetchOnWindowFocus: false });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const { data: dtempresa } = useQuery({
-        queryKey: ["mostrar empresa", dataUsuarios?.id],
-        queryFn: () => mostrarEmpresa
-            ({ _id_usuario: dataUsuarios?.id }), enabled: !!dataUsuarios?.id, refetchOnWindowFocus: false
-    });
 
-    if (isLoading) {
-        return <Spinner1 />
-    }
-    if (error) {
-        return <span>Error: {error.message}</span>
-    }
-    return (
-        <Container className={sidebarOpen ? "active" : ""}>
+  const { data: dtempresa } = useQuery({
+    queryKey: ["mostrar empresa", dataUsuarios?.id],
+    queryFn: () => mostrarEmpresa
+      ({ _id_usuario: dataUsuarios?.id }), enabled: !!dataUsuarios?.id, refetchOnWindowFocus: false
+  });
 
-            <section className="contentSidebar">
-                <Sidebar
-                    state={sidebarOpen}
-                    setState={() => setSidebarOpen(!sidebarOpen)}
-                />
-            </section>
-            <section className="contentMenuHamburg"><SwitchHambur /></section>
-            <ContainerBody>
-                {children}
-            </ContainerBody>
-        </Container>
-    );
+  if (isLoading) {
+    return <Spinner1 />
+  }
+  if (error) {
+    return <span>Error: {error.message}</span>
+  }
+  return (
+    <Container className={sidebarOpen ? "active" : ""}>
+
+      <section className="contentSidebar">
+        <Sidebar
+          state={sidebarOpen}
+          setState={() => setSidebarOpen(!sidebarOpen)}
+        />
+      </section>
+      <section className="contentMenuHamburg">
+        <SwitchHambur state={isMenuOpen} setstate={() => setIsMenuOpen(prev => !prev)} />
+        {isMenuOpen && <MenuMovil state={isMenuOpen} setstate={() => setIsMenuOpen(false)} />}
+      </section>
+      <ContainerBody>
+        {children}
+      </ContainerBody>
+    </Container>
+  );
 };
 
 const Container = styled.main`
-  display: grid;
+  display: flex;
   grid-template-columns: 1fr;
   transition: 0.1s ease-in-out;
   color: ${({ theme }) => theme.text};

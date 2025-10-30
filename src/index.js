@@ -77,3 +77,7 @@ export * from "./supabase/crudVentas";
 export * from "./store/VentasStore";
 export * from "./supabase/crudDetalleVentas";
 export * from "./store/DetalleVentasStore";
+export * from "./components/templates/404";
+export * from "./components/templates/Welcome";
+export * from "./components/organismos/sidebar/MenuMovil";
+export * from "./components/organismos/sidebar/ToggleTema";

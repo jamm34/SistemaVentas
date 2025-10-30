@@ -1,5 +1,5 @@
 import { Routes, Route, data } from "react-router-dom";
-import { Home, Login, ProtectedRoute, Configuraciones, Categorias, Productos, POS, Layout } from "../index";
+import { Home, Login, ProtectedRoute, Configuraciones, Categorias, Productos, POS, Layout, PageNot } from "../index";
 
 
 export function MyRoutes() {
@@ -58,6 +58,7 @@ export function MyRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<PageNot />} />
     </Routes>
   );
 }
