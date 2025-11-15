@@ -1,16 +1,26 @@
 import styled from 'styled-components';
-import { Sidebar, SwitchHambur, useUsuariosStore, Spinner1, useEmpresaStore, MenuMovil } from '../index';
+import { Sidebar, SwitchHambur, useUsuariosStore, Spinner1, useEmpresaStore, MenuMovil, useSucursalesStore } from '../index';
 import { useState } from 'react';
 import { Device } from "../styles/Breakpoints";
 import { useQuery } from "@tanstack/react-query";
 
 
 export function Layout({ children }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { dataUsuarios, MostrarUsuarios } = useUsuariosStore();
   const { mostrarEmpresa } = useEmpresaStore();
-  const { isLoading, error } = useQuery({ queryKey: ["mostrar usuarios"], queryFn: MostrarUsuarios, refetchOnWindowFocus: false });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mostrarSucursalesAsignadas } = useSucursalesStore();
+  const { isLoading, error } = useQuery({
+    queryKey: ["mostrar usuarios"],
+    queryFn: MostrarUsuarios, refetchOnWindowFocus: false
+  });
+  useQuery({
+    queryKey: ["mostrar sucursales asignadas", dataUsuarios?.id],
+    queryFn: () => mostrarSucursalesAsignadas({ id_usuario: dataUsuarios?.id }),
+    enabled: !!dataUsuarios
+  });
+
 
 
   const { data: dtempresa } = useQuery({

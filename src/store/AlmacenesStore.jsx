@@ -1,11 +1,17 @@
 import { create } from "zustand";
-import { EliminarAlmacen, InsertarStockAlmacenes, MostrarStockAlmacenXSucursal } from "../index";
+import { EliminarAlmacen, InsertarStockAlmacenes, MostrarAlmacenXSucursal, MostrarStockAlmacenXSucursal } from "../index";
 
 export const useAlmacenesStore = create((set) => ({
     dataAlmacen: [],
+    dataAlmacenXSucursalXProducto: [],
     mostrarAlmacen: async (p) => {
         const response = await MostrarStockAlmacenXSucursal(p);
         set({ dataAlmacen: response });
+        return response;
+    },
+    mostrarAlmacenXSucursal: async (p) => {
+        const response = await MostrarAlmacenXSucursal(p);
+        set({ dataAlmacenXSucursalXProducto: response });
         return response;
     },
     insertarStockAlmacenes: async (p) => {

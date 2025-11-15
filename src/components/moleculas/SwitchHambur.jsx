@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export function SwitchHambur({ state, setstate }) {
   // handler que llama a la función pasada desde el layout
   const handleToggle = () => {
-    if (typeof setstate === 'function') setstate(); // llama al toggle del padre
+    if (typeof setstate === 'function') setstate();
   };
 
   return (

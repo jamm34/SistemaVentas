@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useVentasStore, useUsuariosStore, useEmpresaStore, useDetalleVentasStore } from '../../../index';
+import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useVentasStore, useUsuariosStore, useEmpresaStore, useDetalleVentasStore, useSucursalesStore, useAlmacenesStore } from '../../../index';
 import { v } from "../../../styles/variables";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
@@ -8,9 +8,11 @@ export function HeaderPos() {
     const [stateLectora, setStateLectora] = useState(true)
     const [stateTeclado, setStateTeclado] = useState(false)
     const [stateListaProductos, setStateListaProductos] = useState(false)
-    const { setBuscador, dataProductos, selectProductos, productosItemSelect } = useProductosStore()
+    const { setBuscador, dataProductos, selectProductos, productosItemSelect } = useProductosStore();
+    const { sucursalesItemSelectAsignadas } = useSucursalesStore();
 
     const { insertarVentas, idVenta, eliminarventasIncompletas } = useVentasStore();
+
     const { dataUsuarios } = useUsuariosStore();
     const { dataempresa } = useEmpresaStore();
     const { insertarDetalleVentas } = useDetalleVentasStore();
@@ -31,46 +33,54 @@ export function HeaderPos() {
             setStateListaProductos(true);
         }
     };
-    async function funcion_insertarVenta(itemProductos) {
+
+    async function funcion_insertarVenta() {
         const pVentas = {
             id_usuario: dataUsuarios?.id,
-            id_empresa: dataempresa?.id
+            id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
+            id_empresa: dataempresa.id
         };
 
+        const productosItemSelect = useProductosStore.getState().productosItemSelect;
         const pDetalleVenta = {
-            id_venta: idVenta,
-            precio_venta: productosItemSelect.precio_venta,
-            total: 1 * productosItemSelect.precio_venta,
-            descripcion: productosItemSelect.nombre,
-            id_producto: productosItemSelect.id,
-            precio_compra: productosItemSelect.precio_compra,
-            id_sucursal: 266
+            _id_venta: idVenta,
+            _cantidad: 1,
+            _precio_venta: productosItemSelect.precio_venta,
+            _total: 1 * productosItemSelect.precio_venta,
+            _descripcion: productosItemSelect.nombre,
+            _id_producto: productosItemSelect.id,
+            _precio_compra: productosItemSelect.precio_compra,
+            _id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
         };
+        console.log(" detalle ventas", pDetalleVenta);
+
         if (idVenta == 0) {
             const result = await insertarVentas(pVentas);
-            pDetalleVenta.id_venta = result?.id;
-            pDetalleVenta.precio_venta = itemProductos.precio_venta;
-            pDetalleVenta.total = 1 * itemProductos.precio_venta;
-            pDetalleVenta.descripcion = itemProductos.nombre;
-            pDetalleVenta.id_producto = itemProductos.id;
-            pDetalleVenta.precio_compra = itemProductos.precio_compra;
+            (pDetalleVenta._id_venta = result?.id);
             await insertarDetalleVentas(pDetalleVenta);
-        } else if (idVenta > 0) {
+        }
+        if (idVenta > 0) {
             await insertarDetalleVentas(pDetalleVenta);
         }
     }
+
+
     useEffect(() => {
         if (stateLectora) {
-            setStateListaProductos(false)
+            setStateListaProductos(prev => (prev ? false : prev))
         }
     }, [stateLectora])
 
     useEffect(() => {
         buscadorRef.current.focus();
-        eliminarventasIncompletas({ id_usuario: dataUsuarios?.id })
+        // eliminarventasIncompletas({ id_usuario: dataUsuarios?.id })
     }, [])
+
     return (
         <Header>
+            <ContentSucursal>
+                <strong>Sucursal: </strong> {sucursalesItemSelectAsignadas?.sucursal}
+            </ContentSucursal>
             <section className='contentprincipal'>
                 <ContentUser className='area1'>
                     <div className='contentimg'>
@@ -92,7 +102,7 @@ export function HeaderPos() {
             <section className='contentbuscador'>
                 <article className='area1'>
                     <InputText2 >
-                        <input ref={buscadorRef} onChange={buscar} className='form__field' type='text' placeholder='Buscar...' />
+                        <input ref={buscadorRef} onChange={buscar} className='form__field' type='search' placeholder='Buscar...' />
                         <ListaDesplegable
                             funcionCrud={funcion_insertarVenta}
                             funcion={selectProductos}
@@ -113,7 +123,7 @@ export function HeaderPos() {
                         bgcolor={stateLectora ? "#5849fe" : ({ theme }) => theme.bgtotal}
                         border="2px"
                         titulo="Lectora"
-                        color={stateLectora ? "#fff" : ({ theme }) => theme.text}
+                        color={stateLectora ? "#fff" : ({ theme }) => theme.bgtotal}
                         icono={<Icon icon="material-symbols:barcode-reader-outline" />} />
                     <Btn1
                         funcion={() => {
@@ -122,8 +132,7 @@ export function HeaderPos() {
                             focusClick()
                         }}
                         bgcolor={stateTeclado ? "#5849fe" : ({ theme }) => theme.bgtotal}
-                        color={stateTeclado ? "#fff" : ({ theme }) => theme.text}
-
+                        color={stateTeclado ? "#fff" : ({ theme }) => theme.color1}
                         border="2px"
                         titulo="Teclado"
                         icono={<Icon icon="icon-park:enter-the-keyboard" />} />
@@ -133,6 +142,17 @@ export function HeaderPos() {
         </Header>
     )
 };
+const ContentSucursal = styled.section`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    border-bottom:2px solid ${({ theme }) => theme.color1};
+`;
 const Header = styled.div`
     grid-area: header;  
     display: flex;

@@ -47,6 +47,23 @@ export async function EliminarVentasIncompletas(p) {
     }
 }
 
+export async function MostrarVentasXSucursal(p) {
+    const { error, data } = await supabase
+        .from(tabla)
+        .select()
+        .eq("id_sucursal", p.id_sucursal)
+        .eq("estado", "nueva")
+    if (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.message
+        });
+        return [];
+    }
+    return data || [];
+}
+
 // export async function EditarProductos(p) {
 //     const { error } = await supabase.rpc("editarproductos", p)
 //     if (error) {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MostrarSucursales } from "../index";
+import { MostrarSucursales, MostrarSucursalesAsignadasXuser } from "../index";
 
 export const useSucursalesStore = create((set) => ({
     sucursalesItemSelect: [],
@@ -8,11 +8,19 @@ export const useSucursalesStore = create((set) => ({
 
     },
     dataSucursales: [],
+    dataSucursaleAsignadas: [],
+    sucursalesItemSelectAsignadas: null,
     mostrarSucursales: async (p) => {
         const response = await MostrarSucursales(p);
         set({ dataSucursales: response })
         set({ sucursalesItemSelect: response[0] })
         return response;
-    }
+    },
+    mostrarSucursalesAsignadas: async (p) => {
+        const response = await MostrarSucursalesAsignadasXuser(p);
+        set({ dataSucursaleAsignadas: response });
+        set({ sucursalesItemSelectAsignadas: response[0] })
+        return response;
+    },
 
 }));

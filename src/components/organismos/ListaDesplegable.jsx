@@ -6,11 +6,12 @@ export function ListaDesplegable({ data, setState, funcion, scroll, top, state, 
     if (refetch) {
       refetch();
     }
-    if (funcionCrud) {
-      funcionCrud(p)
-    }
     funcion(p);
     setState();
+    if (funcionCrud) {
+      funcionCrud()
+    }
+
   }
   return (
     <Container scroll={scroll} $top={top}>

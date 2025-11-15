@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { Btn1 } from "../../moleculas/Btn1";
 import { Device } from "../../../styles/Breakpoints";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
+import { useDetalleVentasStore } from "../../../store/DetalleVentasStore";
+import { FormatearNumeroDinero } from '../../../utils/Conversiones';
 
 export function TotalPos() {
+  const { total } = useDetalleVentasStore();
   return (
     <Container>
       <section className="imagen">
@@ -15,7 +17,7 @@ export function TotalPos() {
           <Btn1 border="2px" color="#207c33" titulo="COBRAR" icono={<Icon icon="fluent-emoji:money-with-wings" />} />
           <Btn1 border="2px" bgcolor="#ffffff" color="#207c33" titulo="..." icono={<Icon icon="fluent-emoji:safety-vest" />} />
         </section>
-        <span>$ 9.99</span>
+        <span>{FormatearNumeroDinero(total)}</span>
       </section>
 
     </Container>

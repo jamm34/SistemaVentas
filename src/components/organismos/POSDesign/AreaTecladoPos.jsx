@@ -2,29 +2,31 @@ import React from 'react';
 import styled from 'styled-components';
 import { Btn1, Device, TotalPos } from '../../../index';
 
+
+
 export function AreaTecladoPos() {
-    return (
-        <Container>
-            <section className='areatipopago'>
-                <article className='box'>
-                    <Btn1 titulo="EFECTIVO" border="0" height="70px" width="100%" bgcolor="#a6f868" />
-                    <Btn1 titulo="CREDITO" border="0" height="70px" width="100%" bgcolor="#fb816c" />
-                </article>
-                <article className='box'>
-                    <Btn1 titulo="TARJETA" height="70px" width="100%" bgcolor='#fba259' />
-                    <Btn1 titulo="MIXTO" height="70px" width="100%" bgcolor="#919afd" />
-                </article>
-            </section>
-            <section className='totales'>
-                <div className='subtotales'>
-                    <span>Sub Total: <strong>$ 9.99</strong></span>
-                    <span>IGV (18%): $0.00</span>
-                    <span>Sub Total: <strong>$ 9.99</strong></span>
-                </div>
-                <TotalPos />
-            </section>
-        </Container>
-    );
+  return (
+    <Container>
+      <section className='areatipopago'>
+        <article className='box'>
+          <Btn1 titulo="EFECTIVO" border="0" height="70px" width="100%" bgcolor="#a6f868" />
+          <Btn1 titulo="CREDITO" border="0" height="70px" width="100%" bgcolor="#fb816c" />
+        </article>
+        <article className='box'>
+          <Btn1 titulo="TARJETA" height="70px" width="100%" bgcolor='#fba259' />
+          <Btn1 titulo="MIXTO" height="70px" width="100%" bgcolor="#919afd" />
+        </article>
+      </section>
+      <section className='totales'>
+        <div className='subtotales'>
+          <span>Sub Total: <strong>$ 9.99</strong></span>
+          <span>IGV (18%): $0.00</span>
+          <span>Sub Total: <strong>$ 9.99</strong></span>
+        </div>
+        <TotalPos />
+      </section>
+    </Container>
+  );
 };
 const Container = styled.div`
   border: 2px solid ${({ theme }) => theme.color1};

@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Device } from "../../styles/Breakpoints";
+import { blur_in } from "../../styles/Keyframes";
 import { AreaDetalleVentaPos, HeaderPos, AreaTecladoPos, FooterPos } from '../../index';
 
 
 
-export function POSTemplate() {
+export function POSTemplate({ }) {
   return (
     <Container>
       <HeaderPos />
@@ -27,6 +28,8 @@ const Container = styled.div`
   "header"
   "main";
   grid-template-rows: 220px auto;
+
+  animation ${blur_in} 0.5s linear both;
 
   @media ${Device.desktop} {
     grid-template-areas:
