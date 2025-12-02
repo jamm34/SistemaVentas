@@ -1,24 +1,27 @@
 import styled from "styled-components";
 import { Device } from "../../../styles/Breakpoints";
 import { Btn1 } from "../../moleculas/Btn1";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { useCartVentasStore } from "../../../store/CartVentasStore";
+
 
 export function FooterPos() {
-    return (
-        <Footer>
-            <article className="content">
-                <Btn1 titulo="ELIMINAR" />
-                <Btn1 titulo="Ver ventas del dia y devoluciones" />
-                <Btn1 titulo="ACTUALIZAR" />
-                <Btn1 titulo="ELIMINAR" />
-            </article>
-        </Footer>
-    );
+  const { resetState } = useCartVentasStore();
+
+  return (
+    <Footer>
+      <article className="content">
+        <Btn1 color="#fff" bgcolor="#f44141" backfuncion={resetState} titulo="ELIMINAR VENTA" icono={<Icon icon="mdi:delete" />} />
+        <Btn1 titulo="Ver ventas del dia y devoluciones" />
+      </article>
+    </Footer>
+  );
 };
 const Footer = styled.div`
   grid-area: footer;  
   display: none;
   width: 100%;
-  padding: 10px 15px;
+  padding: 10px 10px;
 
   @media ${Device.desktop} {
     display: flex;

@@ -18,6 +18,7 @@ export function POSTemplate({ }) {
     </Container>
   );
 };
+
 const Container = styled.div`
   height: calc(100vh - 40px);
   padding: 10px;
@@ -27,7 +28,7 @@ const Container = styled.div`
   grid-template-areas:
   "header"
   "main";
-  grid-template-rows: 220px auto;
+  grid-template-rows: auto 1fr;
 
   animation ${blur_in} 0.5s linear both;
 

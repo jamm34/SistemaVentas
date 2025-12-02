@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { Btn1 } from "../../moleculas/Btn1";
 import { Device } from "../../../styles/Breakpoints";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useDetalleVentasStore } from "../../../store/DetalleVentasStore";
+
 import { FormatearNumeroDinero } from '../../../utils/Conversiones';
+import { useCartVentasStore } from "../../../store/CartVentasStore";
 
 export function TotalPos() {
-  const { total } = useDetalleVentasStore();
+  const { total, resetState } = useCartVentasStore();
   return (
     <Container>
       <section className="imagen">

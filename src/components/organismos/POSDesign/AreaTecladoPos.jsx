@@ -33,16 +33,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: absolute;
-  bottom: 10px;
+  position: relative;
   width: 100%;
   border-radius: 15px;
 
   @media ${Device.desktop} {
     z-index: 10;
-    position: relative;
     width: auto;
-    bottom: initial;
   }
 
   .areatipopago {
@@ -58,7 +55,7 @@ const Container = styled.div`
       gap: 20px;
       margin: 10px;
     }
-  }
+  } 
 
   .totales {
     display: flex;
@@ -67,7 +64,7 @@ const Container = styled.div`
     padding: 10px;
 
     .subtotales {
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: end;
       text-align: end;

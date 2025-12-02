@@ -83,3 +83,4 @@ export * from "./components/organismos/sidebar/MenuMovil";
 export * from "./components/organismos/sidebar/ToggleTema";
 export* from "./components/moleculas/SpinnerSecundario";
 export * from "./components/atomos/LottieAnimation";
+export * from "./store/CartVentasStore";

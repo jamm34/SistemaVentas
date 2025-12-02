@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useVentasStore, useUsuariosStore, useEmpresaStore, useDetalleVentasStore, useSucursalesStore, useAlmacenesStore } from '../../../index';
+import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useSucursalesStore, useCartVentasStore } from '../../../index';
 import { v } from "../../../styles/variables";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
@@ -8,14 +8,10 @@ export function HeaderPos() {
     const [stateLectora, setStateLectora] = useState(true)
     const [stateTeclado, setStateTeclado] = useState(false)
     const [stateListaProductos, setStateListaProductos] = useState(false)
-    const { setBuscador, dataProductos, selectProductos, productosItemSelect } = useProductosStore();
+
+    const { setBuscador, dataProductos, selectProductos } = useProductosStore();
     const { sucursalesItemSelectAsignadas } = useSucursalesStore();
-
-    const { insertarVentas, idVenta, eliminarventasIncompletas } = useVentasStore();
-
-    const { dataUsuarios } = useUsuariosStore();
-    const { dataempresa } = useEmpresaStore();
-    const { insertarDetalleVentas } = useDetalleVentasStore();
+    const { addItem } = useCartVentasStore();
     const buscadorRef = useRef(null);
     function focusClick() {
         buscadorRef.current.focus();
@@ -35,15 +31,15 @@ export function HeaderPos() {
     };
 
     async function funcion_insertarVenta() {
-        const pVentas = {
-            id_usuario: dataUsuarios?.id,
-            id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
-            id_empresa: dataempresa.id
-        };
+        // const pVentas = {
+        //     id_usuario: dataUsuarios?.id,
+        //     id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
+        //     id_empresa: dataempresa.id
+        // };
 
         const productosItemSelect = useProductosStore.getState().productosItemSelect;
         const pDetalleVenta = {
-            _id_venta: idVenta,
+            _id_venta: 1,
             _cantidad: 1,
             _precio_venta: productosItemSelect.precio_venta,
             _total: 1 * productosItemSelect.precio_venta,
@@ -52,18 +48,8 @@ export function HeaderPos() {
             _precio_compra: productosItemSelect.precio_compra,
             _id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
         };
-        console.log(" detalle ventas", pDetalleVenta);
-
-        if (idVenta == 0) {
-            const result = await insertarVentas(pVentas);
-            (pDetalleVenta._id_venta = result?.id);
-            await insertarDetalleVentas(pDetalleVenta);
-        }
-        if (idVenta > 0) {
-            await insertarDetalleVentas(pDetalleVenta);
-        }
+        addItem(pDetalleVenta);
     }
-
 
     useEffect(() => {
         if (stateLectora) {
@@ -143,7 +129,7 @@ export function HeaderPos() {
     )
 };
 const ContentSucursal = styled.section`
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -151,28 +137,31 @@ const ContentSucursal = styled.section`
     justify-content: center;
     align-items: center;
     height: 50px;
-    border-bottom:2px solid ${({ theme }) => theme.color1};
+    
 `;
 const Header = styled.div`
     grid-area: header;  
     display: flex;
-    height: 100%; 
-    
-    flex-direction: column;
     gap: 10px;
+    height: 100%; 
+    flex-direction: column;
     @media ${Device.desktop}{
     border-bottom:2px solid ${({ theme }) => theme.color1};
     }
     .contentprincipal{
     width: 100%;
     display: grid;
-    grid-template-areas: "area1 area2"
-        "area3 area3";
+    margin-top: -5px;   
+    border-top:2px solid ${({ theme }) => theme.color1};
+    grid-template-areas: "area1 area2 area3";
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
         .area1{
             grid-area: area1;
         }
         .area2{
             grid-area: area2;
+            justify-self: center;
         }
         .area3{
             grid-area: area3;
@@ -185,19 +174,26 @@ const Header = styled.div`
         display: flex;
         align-items: center;
         font-weight: 700;
+        font-size: 12px;
         img{
             width: 40px;
             object-fit: contain;
         }
     }
+    .contentfecha{
+        display: flex;  
+        justify-content: flex-end;
+        font-size: 14px;
+
+        }
 }
     .contentbuscador {
     display: grid;
+    
     grid-template-areas:
             "area2 area2"
             "area1 area1";
             gap: 10px;
-            height: 100%;
             align-items: center;
             position-relative;
 
@@ -223,6 +219,7 @@ const ContentUser = styled.div`
 display: flex;
 align-items:center ;
 gap: 12px;
+
     .contentimg{
         display: flex;
         align-items: center;
@@ -240,7 +237,7 @@ gap: 12px;
         flex-direction: column;
         .usuario{
             font-weight: 700;
-            font-size: 14px;}
+            font-size: 12px;}
         }
         
 `;

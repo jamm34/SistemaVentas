@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { Device } from "../../index";
+import { useEffect, useRef, useState } from "react";
+
 export function ListaDesplegable({ data, setState, funcion, scroll, top, state, refetch, funcionCrud }) {
   if (!state) return;
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const dropdownRef = useRef(null);
   function seleccionar(p) {
     if (refetch) {
       refetch();
@@ -11,17 +15,33 @@ export function ListaDesplegable({ data, setState, funcion, scroll, top, state, 
     if (funcionCrud) {
       funcionCrud()
     }
-
   }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      seleccionar(data[selectedIndex])
+    }
+    else if (e.key === 'ArrowUp') {
+      setSelectedIndex((prevIndex) => (prevIndex === 0 ? data.length - 1 : prevIndex - 1))
+
+    } else if (e.key === "ArrowDown") {
+      setSelectedIndex((prevIndex) =>
+        prevIndex === data.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+  useEffect(() => {
+    dropdownRef.current.focus();
+  }, []);
+
   return (
-    <Container scroll={scroll} $top={top}>
+    <Container scroll={scroll} $top={top} ref={dropdownRef} tabIndex={0} onKeyDown={handleKeyDown}>
       <section className="contentClose" onClick={setState}>
         x
       </section>
       <section className="contentItems">
         {data?.map((item, index) => {
           return (
-            <ItemContainer key={index} onClick={() => seleccionar(item)}>
+            <ItemContainer key={index} onClick={() => seleccionar(item)} style={{ background: index === selectedIndex ? "rgba(47,48,52,0.3)" : "" }}>
               <span>🌫️</span>
               <span>{item?.nombre}</span>
             </ItemContainer>
@@ -31,6 +51,7 @@ export function ListaDesplegable({ data, setState, funcion, scroll, top, state, 
     </Container>
   );
 }
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,6 +66,9 @@ const Container = styled.div`
   gap: 10px;
   z-index: 3;
   height:230px;
+  &:focus{
+  outline:none;
+  }
   @media ${() => Device.tablet} {
 
   }
@@ -54,7 +78,7 @@ const Container = styled.div`
     font-size:20px;
   }
   .contentItems {
-    overflow-y: ${(props) => props.scroll};
+    overflow-y: ${(props) => props.onScroll};
   }
 `;
 const ItemContainer = styled.div`

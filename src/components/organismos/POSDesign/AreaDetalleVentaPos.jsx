@@ -5,20 +5,22 @@ import { useVentasStore } from "../../../store/VentasStore";
 import { blur_in } from "../../../styles/Keyframes";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { FormatearNumeroDinero } from '../../../utils/Conversiones';
-import LottieAnimation, { } from "../../atomos/LottieAnimation";
+import LottieAnimation from "../../atomos/LottieAnimation";
 import animacion from '../../../assets/animacion.json';
 import { Btn1 } from "../../moleculas/Btn1";
+import { useCartVentasStore } from "../../../store/CartVentasStore";
 
 export function AreaDetalleVentaPos() {
     const { mostrarDetalleVenta, dataDetalleVenta, eliminarDetalleVentas, total } = useDetalleVentasStore();
     const { idVenta } = useVentasStore();
+    const { items, addCantidadItem, restarCantidadItem, removeItem } = useCartVentasStore();
     const { data } = useQuery({
         queryKey: ["mostrar detalle venta", { id_venta: idVenta }],
         queryFn: () => mostrarDetalleVenta({ id_venta: idVenta }),
-        enabled: idVenta > 0
+        enabled: idVenta != undefined,
     });
     return (
-        <AreaDetalleVenta>
+        <AreaDetalleVenta className={items.length > 0 ? "" : "animacion"}>
             <Header>
                 <div className="col producto">Producto</div>
                 <div className="col precio">Precio</div>
@@ -28,38 +30,39 @@ export function AreaDetalleVentaPos() {
                 <div className="col acciones">Acc.</div>
             </Header>
             {
-                total > 0 ? (dataDetalleVenta || []).map((item, index) => {
+                items.length > 0 ? items.map((item, index) => {
+
                     return (
                         <ItemVenta key={index}>
                             <article className='producto'>
                                 <span className="label">Producto:</span>
-                                <span className='descripcion'>{item.producto}</span>
+                                <span className='descripcion'>{item._descripcion}</span>
                             </article>
 
                             <article className='precio'>
                                 <span className="label">Precio:</span>
-                                <span> {FormatearNumeroDinero(item.precio_venta)}</span>
+                                <span> {FormatearNumeroDinero(item._precio_venta)}</span>
                             </article>
 
                             <article className='importe'>
                                 <span className="label">Importe:</span>
-                                <span><Icon icon="mdi:currency-usd" width="16" height="16" /> {item.total}</span>
+                                <span><Icon icon="mdi:currency-usd" width="16" height="16" /> {item._total}</span>
                             </article>
 
                             <article className="cantidad">
                                 <span className="label">Cant:</span>
-                                <span><strong>{item.cantidad}</strong></span>
+                                <span><strong>{item._cantidad}</strong></span>
                             </article>
                             <article className="agregar">
-                                <Btn1 className="contentbtn" titulo="+" height="5px" width="5px">
+                                <Btn1 funcion={() => addCantidadItem(item)} className="contentbtn" height="5px" width="5px" icono={<Icon icon="mdi:add-bold" />}>
 
                                 </Btn1>
-                                <Btn1 className="contentbtn" titulo="-" height="5px" width="5px">
+                                <Btn1 funcion={() => restarCantidadItem(item)} className="contentbtn" height="5px" width="5px" icono={<Icon icon="subway:subtraction-1" />}>
 
                                 </Btn1>
                             </article>
                             <article className="acciones" title="Eliminar">
-                                <span className="delete" onClick={() => eliminarDetalleVentas({ id: item.id })}><Icon icon="mdi:trash-can-outline" width="20" height="20" /></span>
+                                <span className="delete" onClick={() => removeItem(item)}><Icon icon="mdi:trash-can-outline" width="20" height="20" /></span>
                             </article>
                         </ItemVenta>
                     )
@@ -76,6 +79,8 @@ const AreaDetalleVenta = styled.section`
     flex-direction: column;
     gap: 10px;
     padding-bottom: 6px;
+    flex-grow: 1;
+    overflow-y: auto;
 `;
 
 /* Header row with column titles */
@@ -145,7 +150,7 @@ const ItemVenta = styled.section`
         font-size: 13px;
         font-weight: 700;
         width: 28px;
-        height: 28px;
+        height: 100%;
         padding: 0;
         
         }
