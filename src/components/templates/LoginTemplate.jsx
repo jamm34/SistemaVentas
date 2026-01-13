@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Title, InputText2, Btn1, Linea, Device, Footer, useAuthStore, v } from "../../index";
-
+import { Title, InputText2, Btn1, Linea, Device, Footer, useAuthStore } from "../../index";
+import * as v from "../../styles/variables";
 
 export function LoginTemplate() {
   const { loginGoogle } = useAuthStore()
