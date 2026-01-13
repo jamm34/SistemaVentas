@@ -8,7 +8,6 @@ export * from "./styles/GlobalStyles";
 export * from "./styles/Breakpoints";
 export * from "./routers/MyRoutes";
 export * from "./store/ThemeStore";
-export * from "./styles/variables";
 export * from "./components/templates/LoginTemplate";
 export * from "./components/atomos/Title";
 export * from "./components/organismos/formularios/InputText2";
