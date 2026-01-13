@@ -84,3 +84,7 @@ export * from "./components/organismos/sidebar/ToggleTema";
 export* from "./components/moleculas/SpinnerSecundario";
 export * from "./components/atomos/LottieAnimation";
 export * from "./store/CartVentasStore";
+export * from "./components/organismos/POSDesign/PantallaCobro";
+export * from "./components/organismos/POSDesign/IngresoCobro";
+export * from "./pages/Empresa";
+export * from "./components/templates/EmpresaTemplate";

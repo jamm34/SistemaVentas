@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export function InputText({ children, icono }) {
+export function InputText({ children, icono, textalign }) {
   return (
-    <Container>
+    <Container $textalign={textalign}>
       <span>{icono}</span>
 
       <div className="form__group field">{children}</div>
@@ -27,7 +27,7 @@ const Container = styled.div`
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     -webkit-background-clip: text;
-    -webkit-text-fill-color: ${(props)=>props.theme.text};
+    -webkit-text-fill-color: ${(props) => props.theme.text};
     transition: background-color 5000s ease-in-out 0s;
     
   }
@@ -38,10 +38,11 @@ const Container = styled.div`
     border-bottom: 2px solid #9b9b9b;
     outline: 0;
     font-size: 17px;
-    color: ${(props)=>props.theme.text};
+    color: ${(props) => props.theme.text};
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
+    text-align:${(props) => props.$textalign};
     &.disabled{
       color: #696969;
       background: #2d2d2d;

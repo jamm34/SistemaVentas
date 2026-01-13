@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Device } from "../../styles/Breakpoints";
 import { blur_in } from "../../styles/Keyframes";
-import { AreaDetalleVentaPos, HeaderPos, AreaTecladoPos, FooterPos } from '../../index';
+import { AreaDetalleVentaPos, HeaderPos, AreaTecladoPos, FooterPos, useCartVentasStore, PantallaCobro } from '../../index';
+import { Toaster } from 'sonner';
 
 
-
-export function POSTemplate({ }) {
+export function POSTemplate() {
+  const { statePantallaCobro } = useCartVentasStore();
   return (
-    <Container>
+    <Container >
+      <Toaster richColors position="top-center" />
+      {
+        statePantallaCobro && <PantallaCobro />
+      }
       <HeaderPos />
       <Main>
         <AreaDetalleVentaPos />

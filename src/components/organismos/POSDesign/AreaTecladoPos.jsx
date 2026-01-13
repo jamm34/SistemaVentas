@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Btn1, Device, TotalPos } from '../../../index';
+import { Btn1, Device, TotalPos, useCartVentasStore } from '../../../index';
 
 
 
 export function AreaTecladoPos() {
+  const { setStatePantallaCobro } = useCartVentasStore();
   return (
     <Container>
       <section className='areatipopago'>
         <article className='box'>
-          <Btn1 titulo="EFECTIVO" border="0" height="70px" width="100%" bgcolor="#a6f868" />
-          <Btn1 titulo="CREDITO" border="0" height="70px" width="100%" bgcolor="#fb816c" />
+          <Btn1 funcion={() => setStatePantallaCobro({ tipoCobro: "efectivo" })} titulo="EFECTIVO" border="0" height="70px" width="100%" bgcolor="#a6f868" />
+          <Btn1 funcion={() => setStatePantallaCobro({ tipoCobro: "credito" })} titulo="CREDITO" border="0" height="70px" width="100%" bgcolor="#fb816c" />
         </article>
         <article className='box'>
-          <Btn1 titulo="TARJETA" height="70px" width="100%" bgcolor='#fba259' />
-          <Btn1 titulo="MIXTO" height="70px" width="100%" bgcolor="#919afd" />
+          <Btn1 funcion={() => setStatePantallaCobro({ tipoCobro: "tarjeta" })} titulo="TARJETA" height="70px" width="100%" bgcolor='#fba259' />
+          <Btn1 funcion={() => setStatePantallaCobro({ tipoCobro: "mixto" })} titulo="MIXTO" height="70px" width="100%" bgcolor="#919afd" />
         </article>
       </section>
       <section className='totales'>

@@ -1,9 +1,13 @@
+import { toast } from 'sonner';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 
 const initialState = {
     items: [],
     total: 0,
+    statePantallaCobro: false,
+    tipoCobro: "efectivo",
 }
 
 function calcularTotal(items) {
@@ -66,7 +70,19 @@ export const useCartVentasStore = create(
                     return item;
                 }).filter(Boolean)//filtrado de elementps nulos
                 return { items: updateItems, total: calcularTotal(updateItems) }
-            })
+            }),
+            setStatePantallaCobro: (p) =>
+                set((state) => {
+                    if (state.items.length === 0) {
+                        toast.warning('No hay productos en el carrito')
+                        return { state }
+                    } else {
+                        return {
+                            statePantallaCobro: !state.statePantallaCobro,
+                            tipoCobro: p.tipoCobro
+                        }
+                    }
+                })
         }),
         {
             name: 'cart-ventas-storage'

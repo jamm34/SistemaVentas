@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useDetalleVentasStore } from "../../../store/DetalleVentasStore";
-import { useQuery } from "@tanstack/react-query";
 import { useVentasStore } from "../../../store/VentasStore";
 import { blur_in } from "../../../styles/Keyframes";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -11,14 +9,8 @@ import { Btn1 } from "../../moleculas/Btn1";
 import { useCartVentasStore } from "../../../store/CartVentasStore";
 
 export function AreaDetalleVentaPos() {
-    const { mostrarDetalleVenta, dataDetalleVenta, eliminarDetalleVentas, total } = useDetalleVentasStore();
-    const { idVenta } = useVentasStore();
     const { items, addCantidadItem, restarCantidadItem, removeItem } = useCartVentasStore();
-    const { data } = useQuery({
-        queryKey: ["mostrar detalle venta", { id_venta: idVenta }],
-        queryFn: () => mostrarDetalleVenta({ id_venta: idVenta }),
-        enabled: idVenta != undefined,
-    });
+
     return (
         <AreaDetalleVenta className={items.length > 0 ? "" : "animacion"}>
             <Header>

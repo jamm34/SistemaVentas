@@ -4,6 +4,9 @@ import { EliminarVentasIncompletas, InsertarVentas, MostrarVentasXSucursal } fro
 export const useVentasStore = create((set) => ({
     dataVentas: [],
     idVenta: 0,
+    resetearVentas: () => set({
+        idVenta: 0
+    }),
     insertarVentas: async (p) => {
         const result = await InsertarVentas(p);
         set({ idVenta: result?.id })
@@ -17,5 +20,6 @@ export const useVentasStore = create((set) => ({
         set({ dataVentas: response });
         set({ idVenta: response[0]?.id || 0 })
         return response;
-    }
+    },
+
 }))

@@ -7,7 +7,7 @@ import { useModuloStore } from "../../index";
 
 
 export function ConfiguracionesTemplate() {
-  const {dataModulos} = useModuloStore();
+  const { dataModulos } = useModuloStore();
   useEffect(() => {
     const handleMouseMove = (e) => {
       document.querySelectorAll(".card").forEach((card) => {
@@ -73,8 +73,8 @@ const Container = styled.div`
 width:100%;
 align-items: flex-start;
   #cards {
-  display: flex;
-    flex-wrap: wrap;
+  display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     max-width: 916px;
     width: calc(100% - 20px);
@@ -90,7 +90,8 @@ align-items: flex-start;
     cursor: pointer;
     display: flex;
     height: 260px;
-    flex-direction: column;
+    flex-direction: row;
+    overflow: hidden
     position: relative;
     width: 300px;
     &:hover {
@@ -236,7 +237,7 @@ align-items: flex-start;
     overflow: auto;
 
     #cards {
-      max-width: 1000px;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .card {

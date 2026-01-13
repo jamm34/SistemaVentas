@@ -9,10 +9,11 @@ export function HeaderPos() {
     const [stateTeclado, setStateTeclado] = useState(false)
     const [stateListaProductos, setStateListaProductos] = useState(false)
 
-    const { setBuscador, dataProductos, selectProductos } = useProductosStore();
+    const { setBuscador, dataProductos, selectProductos, buscador } = useProductosStore();
     const { sucursalesItemSelectAsignadas } = useSucursalesStore();
     const { addItem } = useCartVentasStore();
     const buscadorRef = useRef(null);
+
     function focusClick() {
         buscadorRef.current.focus();
         buscadorRef.current.value.trim() === "" ? setStateListaProductos(false) :
@@ -31,12 +32,6 @@ export function HeaderPos() {
     };
 
     async function funcion_insertarVenta() {
-        // const pVentas = {
-        //     id_usuario: dataUsuarios?.id,
-        //     id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
-        //     id_empresa: dataempresa.id
-        // };
-
         const productosItemSelect = useProductosStore.getState().productosItemSelect;
         const pDetalleVenta = {
             _id_venta: 1,
@@ -49,6 +44,9 @@ export function HeaderPos() {
             _id_sucursal: sucursalesItemSelectAsignadas.id_sucursal,
         };
         addItem(pDetalleVenta);
+        setBuscador("");
+        buscadorRef.current.focus();
+
     }
 
     useEffect(() => {
@@ -88,7 +86,13 @@ export function HeaderPos() {
             <section className='contentbuscador'>
                 <article className='area1'>
                     <InputText2 >
-                        <input ref={buscadorRef} onChange={buscar} className='form__field' type='search' placeholder='Buscar...' />
+                        <input
+                            value={buscador}
+                            ref={buscadorRef}
+                            onChange={buscar}
+                            className='form__field'
+                            type='search'
+                            placeholder='Buscar...' />
                         <ListaDesplegable
                             funcionCrud={funcion_insertarVenta}
                             funcion={selectProductos}

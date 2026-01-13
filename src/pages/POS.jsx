@@ -17,20 +17,14 @@ export function POS() {
         enabled: !!dataempresa,
         refetchOnWindowFocus: false
     });
-    useQuery({
+    const { isLoading, error } = useQuery({
         queryKey: ["mostrar almacen por sucursal",
             sucursalesItemSelectAsignadas?.id_sucursal],
         queryFn: () => mostrarAlmacenXSucursal({
             id_sucursal: sucursalesItemSelectAsignadas.id_sucursal
         }), enabled: !!sucursalesItemSelectAsignadas?.id_sucursal
     });
-    const { isLoading, error } = useQuery({
-        queryKey: ["mostrar ventas por sucursal",
-            sucursalesItemSelectAsignadas?.id_sucursal],
-        queryFn: () => mostrarVentasXSucursal({
-            id_sucursal: sucursalesItemSelectAsignadas?.id_sucursal
-        }), enabled: !!sucursalesItemSelectAsignadas?.id_sucursal
-    });
+
     if (isLoading) {
         return <SpinnerSecundario texto={"Cargando ventas..."} />
     }

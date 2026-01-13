@@ -7,7 +7,7 @@ import { FormatearNumeroDinero } from '../../../utils/Conversiones';
 import { useCartVentasStore } from "../../../store/CartVentasStore";
 
 export function TotalPos() {
-  const { total, resetState } = useCartVentasStore();
+  const { total, setStatePantallaCobro } = useCartVentasStore();
   return (
     <Container>
       <section className="imagen">
@@ -15,7 +15,7 @@ export function TotalPos() {
       </section>
       <section className="contentTotal">
         <section className="contentTituloTotal">
-          <Btn1 border="2px" color="#207c33" titulo="COBRAR" icono={<Icon icon="fluent-emoji:money-with-wings" />} />
+          <Btn1 funcion={() => setStatePantallaCobro({ tipoCobro: "mixto" })} border="2px" color="#207c33" titulo="COBRAR" icono={<Icon icon="fluent-emoji:money-with-wings" />} />
           <Btn1 border="2px" bgcolor="#ffffff" color="#207c33" titulo="..." icono={<Icon icon="fluent-emoji:safety-vest" />} />
         </section>
         <span>{FormatearNumeroDinero(total)}</span>

@@ -1,5 +1,5 @@
 import { Routes, Route, data } from "react-router-dom";
-import { Home, Login, ProtectedRoute, Configuraciones, Categorias, Productos, POS, Layout, PageNot } from "../index";
+import { Home, Login, ProtectedRoute, Configuraciones, Categorias, Productos, POS, Layout, PageNot, Empresa } from "../index";
 
 
 export function MyRoutes() {
@@ -54,6 +54,15 @@ export function MyRoutes() {
           <ProtectedRoute accesBy="authenticated">
             <Layout>
               <POS />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/configuracion/empresa"
+        element={
+          <ProtectedRoute accesBy="authenticated">
+            <Layout>
+              <Empresa />
             </Layout>
           </ProtectedRoute>
         }
