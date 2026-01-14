@@ -91,7 +91,7 @@ align-items: flex-start;
     display: flex;
     height: 260px;
     flex-direction: row;
-    overflow: hidden
+    overflow: hidden;
     position: relative;
     width: 300px;
     &:hover {
