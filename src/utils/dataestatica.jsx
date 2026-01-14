@@ -1,4 +1,4 @@
-import { v } from "../styles/variables";
+import { v } from "../styles/Variables";
 import { AiOutlineHome, AiOutlineSetting } from "react-icons/ai";
 
 export const DesplegableUser = [

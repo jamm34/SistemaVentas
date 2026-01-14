@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { v } from "../../../styles/variables";
+import { v } from "../../../styles/Variables";
 import {
   InputText,
   Btn1,

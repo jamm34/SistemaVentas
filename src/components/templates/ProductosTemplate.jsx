@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Btn1, Buscador, Title, RegistrarProductos, TablaProductos, useProductosStore, GenerarCodigo } from "../../index";
-import { v } from "../../styles/variables";
+import { v } from "../../styles/Variables";
 import { useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 

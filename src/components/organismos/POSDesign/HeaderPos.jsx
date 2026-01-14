@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Reloj, InputText2, Btn1, Device, ListaDesplegable, useProductosStore, useSucursalesStore, useCartVentasStore } from '../../../index';
-import { v } from "../../../styles/variables";
+import { v } from "../../../styles/Variables";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
 

@@ -116,7 +116,7 @@ export const v = {
   iconocalculadora: AiOutlineCalculator,
   iconocheck: BsCalendarCheck,
 
-  
+
   iconoflechaderecha: IoIosArrowForward,
   iconoflechaizquierda: IoIosArrowBack,
   colorselector: "#BF94FF",

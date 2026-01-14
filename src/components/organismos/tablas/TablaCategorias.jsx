@@ -2,10 +2,10 @@ import styled from "styled-components";
 import {
   ContentAccionesTabla,
   useCategoriasStore,
-  Paginacion,ImagenContent, Icono
+  Paginacion, ImagenContent, Icono
 } from "../../../index";
 import Swal from "sweetalert2";
-import { v } from "../../../styles/variables";
+import { v } from "../../../styles/Variables";
 import { useState } from "react";
 import {
   flexRender,
@@ -22,7 +22,7 @@ export function TablaCategorias({
   setdataSelect,
   setAccion,
 }) {
-  if (data==null) return;
+  if (data == null) return;
   const [pagina, setPagina] = useState(1);
   const [datas, setData] = useState(data);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -69,23 +69,23 @@ export function TablaCategorias({
   const columns = [
     {
       accessorKey: "icono",
-      header: "Icono", 
+      header: "Icono",
       enableSorting: false,
       cell: (info) => (
-  <div className="ContentCell d-flex justify-content-center align-items-center">
-    {info.getValue() !== "-" ? (
-      <img
-        src={info.getValue()}
-        alt="Icono de categoría"
-        style={{ width: 40, height: 40, objectFit: "cover", borderRadius: "4px" }}
-      />
-    ) : (
-      <Icono>
-        <v.iconoimagenvacia />
-      </Icono>
-    )}
-  </div>
-),
+        <div className="ContentCell d-flex justify-content-center align-items-center">
+          {info.getValue() !== "-" ? (
+            <img
+              src={info.getValue()}
+              alt="Icono de categoría"
+              style={{ width: 40, height: 40, objectFit: "cover", borderRadius: "4px" }}
+            />
+          ) : (
+            <Icono>
+              <v.iconoimagenvacia />
+            </Icono>
+          )}
+        </div>
+      ),
 
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -160,9 +160,9 @@ export function TablaCategorias({
           prev.map((row, index) =>
             index === rowIndex
               ? {
-                  ...prev[rowIndex],
-                  [columnId]: value,
-                }
+                ...prev[rowIndex],
+                [columnId]: value,
+              }
               : row
           )
         ),
@@ -195,9 +195,8 @@ export function TablaCategorias({
                     <div
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
-                      className={`resizer ${
-                        header.column.getIsResizing() ? "isResizing" : ""
-                      }`}
+                      className={`resizer ${header.column.getIsResizing() ? "isResizing" : ""
+                        }`}
                     />
                   </th>
                 ))}
@@ -205,21 +204,21 @@ export function TablaCategorias({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map(item=>(
-              
-                <tr key={item.id}>
-                  {item.getVisibleCells().map(cell => (
-                  
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    
-                  ))}
-                </tr>
-             
+            {table.getRowModel().rows.map(item => (
+
+              <tr key={item.id}>
+                {item.getVisibleCells().map(cell => (
+
+                  <td key={cell.id}>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
+                  </td>
+
+                ))}
+              </tr>
+
             ))}
           </tbody>
         </table>
@@ -273,7 +272,7 @@ const Container = styled.div`
       }
       th {
         
-        border-bottom: 2px solid ${({theme})=>theme.color2};
+        border-bottom: 2px solid ${({ theme }) => theme.color2};
         font-weight:700;
         text-align: center;
         color: ${({ theme }) => theme.text};

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { v } from "../../styles/variables";
+import { v } from "../../styles/Variables";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
-export function ImagenContent({imagen}) {
+export function ImagenContent({ imagen }) {
     return (
         <Container>
-            <LazyLoadImage placeholderSrc={<v.iconoreact/>}>
+            <LazyLoadImage placeholderSrc={<v.iconoreact />}>
                 effect="blur"
                 src={imagen}
                 width={50}

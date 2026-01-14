@@ -4,7 +4,7 @@ import {
   SecondarylinksArray
 } from "../../../utils/dataestatica";
 import { ToggleTema } from "../../../index";
-import { v } from "../../../styles/variables";
+import { v } from "../../../styles/Variables";
 import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 

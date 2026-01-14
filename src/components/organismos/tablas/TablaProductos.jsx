@@ -6,7 +6,7 @@ import {
   Checkbox1
 } from "../../../index";
 import Swal from "sweetalert2";
-import { v } from "../../../styles/variables";
+import { v } from "../../../styles/Variables";
 import { useState } from "react";
 import {
   flexRender,
